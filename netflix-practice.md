@@ -7,21 +7,7 @@
 > A query that retrieves the ID, year, and title of movies that fit criteria of your choosing (e.g., movies with certain titles or title patterns, movies released on one or more given years, etc.), sorted ascending by title.
 
 ```json
-{
-  "_source": false,
-  "query": {
-    "bool": {
-      "must": [
-        {
-          "match": {
-            "title": "spongebob"
-          }
-        }
-      ]
-    }
-  },
-  "sort": ["title.keyword", "year", "_id"]
-}
+db.movies.find( {title: /spongebob/i}, { _id: 0, id: 1, title: 1, year: 1}).sort({title: 1})
 ```
 
 Queries the title, release year, and id of the movies with "Spongebob" in the title.
@@ -33,39 +19,11 @@ Queries the title, release year, and id of the movies with "Spongebob" in the ti
 > A query that takes movie criteria of your choosing and returns a collection consisting of year and count where count is the number of movies that meet these criteria which were released on that year, sorted ascending by year.
 
 ```json
-{
-  "size": 0,
-  "_source": false,
-  "query": {
-    "bool": {
-      "must": [
-        {
-          "match": {
-            "title": "spongebob"
-          }
-        }
-      ]
-    }
-  },
-  "aggs": {
-    "movies_per_year": {
-      "terms": {
-        "field": "year"
-      },
-      "aggs": {
-        "movies_per_year_sort": {
-          "bucket_sort": {
-            "sort": {
-              "_key": {
-                "order": "asc"
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+db.movies.aggregate([
+  {"$match" : {title: /spongebob/i}},
+  {"$group" : {_id:"$year", count:{$sum:1}}},
+  {"$sort":{year: 1}}
+])
 ```
 
 Queries
@@ -77,7 +35,12 @@ Queries
 > A query that takes movie criteria of your choosing and returns the same collection as above except it only returns the year and count of the top five (5) years with the most movies released, sorted descending by count then ascending by year in case of a tie.
 
 ```json
-
+db.movies.aggregate([
+  {"$match" : {title: /dog/i}},
+  {"$group" : {_id:"$year", count:{$sum:1}}},
+  {"$sort": {count: -1, _id: 1}},
+  {"$limit": 5}
+])
 ```
 
 Queries
