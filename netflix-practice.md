@@ -26,7 +26,7 @@ db.movies.aggregate([
 ])
 ```
 
-Queries
+Aggregate of all the movies with spongebob in the title and sorted by year
 
 <center><img src="./assets/q2.png" style="width: 90%" ></img></center>
 
@@ -43,7 +43,7 @@ db.movies.aggregate([
 ])
 ```
 
-Queries
+Aggregate of all the movies with dog in the title and sorted by count (desc), but limited to the top 5 years with the most movies released. In the case of a tie count, sort ascending by year.
 
 <center><img src="./assets/q3.png" style="width: 90%" ></img></center>
 
@@ -52,46 +52,34 @@ Queries
 > A query that lists the title and year of movies seen by a particular user with a rating matching conditions of your choosing (e.g., 4 and above, 2 and below, etc.) sorted ascending by title.
 
 ```json
-{
-  "_source": false,
-  "query": {
-    "nested": {
-      "path": "ratings",
-      "query": {
-        "bool": {
-          "must": [
-            {
-              "match": {
-                "ratings.viewer_id": 2442
-              }
-            },
-            {
-              "match": {
-                "ratings.rating": 5
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  "sort": ["title.keyword"]
-}
+db.movies.aggregate([
+  { $unwind: "$ratings" },
+  { $match: { $and:[ { 'ratings.viewer_id': 2442 }, { 'ratings.rating': 5 } ] } },
+  { $group: {_id: {title: '$title', year: '$year'} }},
+  { $sort:  {'_id.title': 1}},
+])
 ```
 
-Queries all reviews made by user '2442' with a rating of '5', sorted ascending by title
+Queries all reviews made by user '2442' with a rating of '5', sorted ascending by title. Display title and year.
 
 <center><img src="./assets/q4.png" style="width: 90%" ></img></center>
 
 ### Average rating of movies:
 
-> A query that takes movie criteria of your choosing and returns a collection consisting of title, year, and avg where avg is the average rating received by each movie, sorted descending by avg (thus listing the top-rated movie first) then ascending by title in case of a tie.
+> A query that takes movie criteria of your choosing and returns a collection consisting of title, year, and avg where avg is the average rating received by each movie, sorted descending by avg (thus listing the top-rated movie first) then ascending by title in the case of a tie.
 
 ```json
 
+db.movies.aggregate([
+  { $unwind: "$ratings"},
+  {"$match" : {title: /spongebob/i}},
+  {"$group" : {_id:{title: "$title", year: "$year"}, avg_rating: {$avg:"$ratings.rating"}}},
+  {"$sort" :  {avg_rating: -1, title: 1}}
+])
+
 ```
 
-Queries
+Selects title, year, and average rating of all movies with spongebob in the title descending by the average rating and ascending by title in the case of a tie.
 
 <center><img src="./assets/q5.png" style="width: 90%" ></img></center>
 
@@ -100,6 +88,48 @@ Queries
 > A query that takes movie criteria of your choosing and returns a collection consisting of title, year, and avg where avg is the average rating received by each movie and meeting some condition of your choosing such as average greater than 4, average less than 3, etc.—the results should be sorted descending by avg (thus listing the top-rated movie first) then ascending by title in case of a tie.
 
 ```json
+
+db.movies.aggregate([
+  { $unwind: "$ratings"},
+  { "$match" : {title: /spongebob/i}},
+  { "$group" : {_id:{title: "$title", year: "$year"},
+  //{ "$cond"  : [ if:{ $gt: [ $avg:"$ratings.rating", 3 ]}, then:{avg_rating:{$avg:"$ratings.rating"}}, else:avg_rating:null},
+  //{ "$sort"  : {avg_rating: -1, title: 1}}
+])
+
+db.movies.aggregate([
+  { $unwind: "$ratings"},
+  { "$match" : { and: [
+    {title: /spongebob/i},
+    {"$ratings.rating": {$gt: 3}}
+    ]
+  } },
+  { "$group" : {_id: {title: "$title", year: "$year"}}}
+])
+
+  // {"$cond"  : {if: { $gt: [ $avg:"$ratings.rating", 3 ]}, then: {avg_rating:{$avg:"$ratings.rating"} }, else: {avg_rating:null}}},
+
+db.movies.aggregate([
+  { $unwind: "$ratings"},
+  {"$match" : {title: /spongebob/i}},
+  { $project: {
+      cond:
+    //{"$cond"  : [ { $gte: [ "$ratings.rating", 3 ] }, {avg_rating: {$avg: "$ratings.rating"}}, {avg_rating:null} ]}
+  }},
+  {"$group" : {_id: { title: "$title", year: "$year", avg_rating: "$avg_rating" } } },
+  {"$sort"  : {avg_rating: -1, title: 1}}
+])
+
+
+
+db.item.aggregate([
+{ $unwind: "$ratings"},
+{$group: {_id: { title: "$title", year: "$year", avg_rating: {$avg: "$ratings.rating"} } } },
+{$project: {avg_rating: {$filter: {input: "$avg_rating",as: "avg_rating",cond: {$lt: ["$$avg_rating", "3"]}} }}},
+{$sort : {avg_rating: -1, title: 1}}
+])
+
+
 
 ```
 
@@ -112,9 +142,22 @@ Queries
 > A query that takes movie criteria of your choosing and returns a collection consisting of title, year, and count where count is the number of reviews received by each movie within a particular date range of your choosing such as after 2005, during the month of September, etc.—the results should be sorted descending by count (thus listing the most-frequently-rated movie first) then ascending by title in case of a tie.
 
 ```json
-
+db.movies.aggregate([
+  { $unwind: "$ratings"},
+  { $match: {$and:[{title: /spongebob/i}, {'ratings.date_rated': {$gte: '2005-1-1'}}]}},
+  { $group: {_id:{title: "$title", year: "$year"}, review_count: {$sum: 1}}},
+  { $sort: { review_count: -1, title: 1 }}
+])
 ```
 
-Queries
+Queries all movies with the title 'spongebob', and having ratings after January 1st, 2005; sorts descending by count, then ascending by year.
 
 <center><img src="./assets/q7.png" style="width: 90%" ></img></center>
+
+db.movies.aggregate([
+{ $unwind: "$ratings"},
+{"$group" : {_id: { title: "$title", year: "$year", avg_rating: {$avg: "$ratings.rating"} } } },
+{"$match" : {title: /spongebob/i}},
+{$project:{"$filter":{input:"$avg_rating",as:"avg_rating",cond:{$lt:{"$avg_rating","3"}}}}},
+{"$sort" : {avg_rating: -1, title: 1}}
+])
