@@ -69,14 +69,12 @@ Queries all reviews made by user '2442' with a rating of '5', sorted ascending b
 > A query that takes movie criteria of your choosing and returns a collection consisting of title, year, and avg where avg is the average rating received by each movie, sorted descending by avg (thus listing the top-rated movie first) then ascending by title in the case of a tie.
 
 ```json
-
 db.movies.aggregate([
   { $unwind: "$ratings"},
   {"$match" : {title: /spongebob/i}},
   {"$group" : {_id:{title: "$title", year: "$year"}, avg_rating: {$avg:"$ratings.rating"}}},
   {"$sort" :  {avg_rating: -1, title: 1}}
 ])
-
 ```
 
 Selects title, year, and average rating of all movies with spongebob in the title descending by the average rating and ascending by title in the case of a tie.
@@ -90,46 +88,12 @@ Selects title, year, and average rating of all movies with spongebob in the titl
 ```json
 
 db.movies.aggregate([
-  { $unwind: "$ratings"},
-  { "$match" : {title: /spongebob/i}},
-  { "$group" : {_id:{title: "$title", year: "$year"},
-  //{ "$cond"  : [ if:{ $gt: [ $avg:"$ratings.rating", 3 ]}, then:{avg_rating:{$avg:"$ratings.rating"}}, else:avg_rating:null},
-  //{ "$sort"  : {avg_rating: -1, title: 1}}
-])
-
-db.movies.aggregate([
-  { $unwind: "$ratings"},
-  { "$match" : { and: [
-    {title: /spongebob/i},
-    {"$ratings.rating": {$gt: 3}}
-    ]
-  } },
-  { "$group" : {_id: {title: "$title", year: "$year"}}}
-])
-
-  // {"$cond"  : {if: { $gt: [ $avg:"$ratings.rating", 3 ]}, then: {avg_rating:{$avg:"$ratings.rating"} }, else: {avg_rating:null}}},
-
-db.movies.aggregate([
-  { $unwind: "$ratings"},
-  {"$match" : {title: /spongebob/i}},
-  { $project: {
-      cond:
-    //{"$cond"  : [ { $gte: [ "$ratings.rating", 3 ] }, {avg_rating: {$avg: "$ratings.rating"}}, {avg_rating:null} ]}
-  }},
-  {"$group" : {_id: { title: "$title", year: "$year", avg_rating: "$avg_rating" } } },
-  {"$sort"  : {avg_rating: -1, title: 1}}
-])
-
-
-
-db.item.aggregate([
 { $unwind: "$ratings"},
-{$group: {_id: { title: "$title", year: "$year", avg_rating: {$avg: "$ratings.rating"} } } },
-{$project: {avg_rating: {$filter: {input: "$avg_rating",as: "avg_rating",cond: {$lt: ["$$avg_rating", "3"]}} }}},
-{$sort : {avg_rating: -1, title: 1}}
+{"$match" : {title: /spongebob/i}},
+{"$group" : {_id: { title: "$title", year: "$year", avg_rating: {$avg: "$ratings.rating"} } } },
+{$project:{"$filter":{input:"$avg_rating",as:"avg_rating",cond:{$lt:{"$avg_rating","3"}}}}},
+{"$sort" : {avg_rating: -1, title: 1}}
 ])
-
-
 
 ```
 
@@ -153,11 +117,3 @@ db.movies.aggregate([
 Queries all movies with the title 'spongebob', and having ratings after January 1st, 2005; sorts descending by count, then ascending by year.
 
 <center><img src="./assets/q7.png" style="width: 90%" ></img></center>
-
-db.movies.aggregate([
-{ $unwind: "$ratings"},
-{"$group" : {_id: { title: "$title", year: "$year", avg_rating: {$avg: "$ratings.rating"} } } },
-{"$match" : {title: /spongebob/i}},
-{$project:{"$filter":{input:"$avg_rating",as:"avg_rating",cond:{$lt:{"$avg_rating","3"}}}}},
-{"$sort" : {avg_rating: -1, title: 1}}
-])
