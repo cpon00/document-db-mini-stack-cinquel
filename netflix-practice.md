@@ -89,15 +89,15 @@ Selects title, year, and average rating of all movies with spongebob in the titl
 
 db.movies.aggregate([
 { $unwind: "$ratings"},
-{"$match" : {title: /spongebob/i}},
-{"$group" : {_id: { title: "$title", year: "$year", avg_rating: {$avg: "$ratings.rating"} } } },
-{$project:{"$filter":{input:"$avg_rating",as:"avg_rating",cond:{$lt:{"$avg_rating","3"}}}}},
-{"$sort" : {avg_rating: -1, title: 1}}
+{ $match : {$and: [{year: {$gte: 1999}}, {title: /spongebob/i }]}},
+{ $group : {_id: { title: "$title", year: "$year"}, avg_rating: {$avg: "$ratings.rating"} } },
+{ $match : {avg_rating:{ $gte:4}}},
+{ $sort  : {avg_rating: -1, title: 1}}
 ])
 
 ```
 
-Queries
+Queries movies, year, and average rating with a title that includes a case insensitive "spongebob" and was released in or after 1999 and displays results with an average rating of over or equal to 4.0.
 
 <center><img src="./assets/q6.png" style="width: 90%" ></img></center>
 
