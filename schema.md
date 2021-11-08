@@ -1,0 +1,31 @@
+<center><img src = "./assets/schema.png" ></center>
+
+| Movie              | Description |
+| ------------------ | ----------- |
+| budget             | Title       |
+| genre              | Text        |
+| homepage           | Title       |
+| id                 | Text        |
+| keywords           | Title       |
+| original_language  | Text        |
+| original_title     | Text        |
+| overview           | Text        |
+| popularity         | Title       |
+| production_company | Text        |
+| production_country | Title       |
+| release_date       | Text        |
+| reviews            | Title       |
+| runtime            | Text        |
+| spoken_languages   | Title       |
+| status             | Text        |
+| tagline            | Title       |
+| title              | Text        |
+| vote_average       | Title       |
+| vote_count         | Text        |
+
+| Credit | Description |
+| ------ | ----------- |
+| id     | Title       |
+| title  | Text        |
+| cast   | Title       |
+| crew   | Text        |

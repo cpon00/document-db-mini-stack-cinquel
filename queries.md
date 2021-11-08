@@ -3,15 +3,17 @@
 > A query that selects a subset of a particular entity in your dataset
 
 ```json
-db.movies.find( {title: /spongebob/i}, { _id: 0, id: 1, title: 1, year: 1}).sort({title: 1})
+db.movies.find({overview: /pirate/i}, { _id: 0, id: 1, title: 1, year: 1}).sort({title: 1})
 ```
+
+Queries the id and title of all movies with "pirate" (case insensitive) in the overview, sorted by the title
 
 <center><img src="./assets/qt1.png" style="width: 90%" ></img></center>
 
 > Another such query, with a specific sort order
 
 ```json
-db.movies.find( {title: /spongebob/i}, { _id: 0, id: 1, title: 1, year: 1}).sort({title: 1})
+db.movies.find( {original_language: /zh/i}, { _id: 0, id: 1, title: 1, year: 1}).sort({title: 1})
 ```
 
 <center><img src="./assets/qt2.png" style="width: 90%" ></img></center>
