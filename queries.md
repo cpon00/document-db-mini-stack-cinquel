@@ -97,4 +97,4 @@ db.movie.aggregate([
 ])
 ```
 
-<center><img src="./assets/qt7.png" style="width: 90%" ></img></center>
+<center><img src="./assets/qt8.png" style="width: 90%" ></img></center>
