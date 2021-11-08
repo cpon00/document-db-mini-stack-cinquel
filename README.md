@@ -4,7 +4,7 @@
 
 ## Python Loader
 
-_Installation instuctions assume that you already have [MongoDB](https://www.mongodb.com/try/download/community) installed on your machine._
+_Installation instuctions assume that you already have [MongoDB](https://www.mongodb.com/try/download/community) installed and running on your machine._
 
 1. Visit the [TMDB Dataset on Kaggle](https://www.kaggle.com/tmdb/tmdb-movie-metadata) and download the dataset.
 2. Place files in the python folder
@@ -14,7 +14,7 @@ _Installation instuctions assume that you already have [MongoDB](https://www.mon
 
 ## Second Method (Do not use)
 
-_Will not work with some queries. Outdated method of populating our database. Kept for posterities sake! Installation instuctions assume that you already have [MongoDB](https://www.mongodb.com/try/download/community) and [Mongo Toolset](https://docs.mongodb.com/database-tools/installation/installation/) installed on your machine._
+_Will not work with some queries. Outdated method of populating our database. Kept for posterities sake! Installation instuctions assume that you already have [MongoDB](https://www.mongodb.com/try/download/community) and [Mongo Toolset](https://docs.mongodb.com/database-tools/installation/installation/) installed and running on your machine._
 
 1. Visit the [TMDB Dataset on Kaggle](https://www.kaggle.com/tmdb/tmdb-movie-metadata) and download the dataset.
 2. Edit run.bat file
