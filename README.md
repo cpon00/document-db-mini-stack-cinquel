@@ -2,7 +2,19 @@
 
 # Cinquel Document Database Assignment Loading Instructions
 
-_Installation instuctions assume that you already have [MongoDB](https://www.mongodb.com/try/download/community) and [Mongo Toolset](https://docs.mongodb.com/database-tools/installation/installation/) installed on your machine_
+## Python Loader
+
+_Installation instuctions assume that you already have [MongoDB](https://www.mongodb.com/try/download/community) installed on your machine._
+
+1. Visit the [TMDB Dataset on Kaggle](https://www.kaggle.com/tmdb/tmdb-movie-metadata) and download the dataset.
+2. Place files in the python folder
+3. Import necessary python packages. For this project, we used pyMongo to interact with our database.
+4. Run the main_loader.py from the python folder to create and populate the tmdb database.
+5. Run queries!
+
+## Second Method (Do not use)
+
+_Will not work with some queries. Outdated method of populating our database. Kept for posterities sake! Installation instuctions assume that you already have [MongoDB](https://www.mongodb.com/try/download/community) and [Mongo Toolset](https://docs.mongodb.com/database-tools/installation/installation/) installed on your machine._
 
 1. Visit the [TMDB Dataset on Kaggle](https://www.kaggle.com/tmdb/tmdb-movie-metadata) and download the dataset.
 2. Edit run.bat file
@@ -14,4 +26,4 @@ _Installation instuctions assume that you already have [MongoDB](https://www.mon
      With your current TMDB Dataset file paths.
 
 3. Save and run the batch file to create and fill your brand new TMDB Database
-4. Run queries
+4. Run queries!

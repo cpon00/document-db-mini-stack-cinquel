@@ -1,31 +1,42 @@
+# Schema Diagram
+
 <center><img src = "./assets/schema.png" ></center>
 
-| Movie              | Description |
-| ------------------ | ----------- |
-| budget             | Title       |
-| genre              | Text        |
-| homepage           | Title       |
-| id                 | Text        |
-| keywords           | Title       |
-| original_language  | Text        |
-| original_title     | Text        |
-| overview           | Text        |
-| popularity         | Title       |
-| production_company | Text        |
-| production_country | Title       |
-| release_date       | Text        |
-| reviews            | Title       |
-| runtime            | Text        |
-| spoken_languages   | Title       |
-| status             | Text        |
-| tagline            | Title       |
-| title              | Text        |
-| vote_average       | Title       |
-| vote_count         | Text        |
+# Collections
 
-| Credit | Description |
-| ------ | ----------- |
-| id     | Title       |
-| title  | Text        |
-| cast   | Title       |
-| crew   | Text        |
+## Movie Collection
+
+| Movie              | Description                                                                                        |
+| ------------------ | -------------------------------------------------------------------------------------------------- |
+| budget             | int                                                                                                |
+| genre              | id:int, name:varchar                                                                               |
+| homepage           | string                                                                                             |
+| id                 | int                                                                                                |
+| keywords           | id:int name:varchar                                                                                |
+| original_language  | string                                                                                             |
+| original_title     | string                                                                                             |
+| overview           | string                                                                                             |
+| popularity         | float                                                                                              |
+| production_company | name:string, id:int                                                                                |
+| production_country | encoding:string, name:string                                                                       |
+| release_date       | date                                                                                               |
+| revenue            | int                                                                                                |
+| runtime            | int                                                                                                |
+| spoken_languages   | encoding:string, name:string                                                                       |
+| status             | string                                                                                             |
+| tagline            | string                                                                                             |
+| title              | varchar                                                                                            |
+| vote_average       | double                                                                                             |
+| vote_count         | int                                                                                                |
+| cast               | cast_id: int, character: string, credit_id: int , gender: int , id: int, name: string , order: int |
+| crew               | credit_id: string, department: string, gender: string, id: int, job: string, name: string          |
+
+<!--
+
+
+## Credit Collection
+
+| Credit | Description                                                                                        |
+| ------ | -------------------------------------------------------------------------------------------------- |
+| id     | int                                                                                                |
+| title  | string                                                                                             | -->
