@@ -1,9 +1,0 @@
-{
-  "mappings": {
-    "properties": {
-      "ratings": {
-        "type": "nested"
-      }
-    }
-  }
-}
