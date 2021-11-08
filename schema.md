@@ -6,37 +6,18 @@
 
 ## Movie Collection
 
-| Movie              | Description                                                                                        |
-| ------------------ | -------------------------------------------------------------------------------------------------- |
-| budget             | int                                                                                                |
-| genre              | id:int, name:varchar                                                                               |
-| homepage           | string                                                                                             |
-| id                 | int                                                                                                |
-| keywords           | id:int name:varchar                                                                                |
-| original_language  | string                                                                                             |
-| original_title     | string                                                                                             |
-| overview           | string                                                                                             |
-| popularity         | float                                                                                              |
-| production_company | name:string, id:int                                                                                |
-| production_country | encoding:string, name:string                                                                       |
-| release_date       | date                                                                                               |
-| revenue            | int                                                                                                |
-| runtime            | int                                                                                                |
-| spoken_languages   | encoding:string, name:string                                                                       |
-| status             | string                                                                                             |
-| tagline            | string                                                                                             |
-| title              | varchar                                                                                            |
-| vote_average       | double                                                                                             |
-| vote_count         | int                                                                                                |
-| cast               | cast_id: int, character: string, credit_id: int , gender: int , id: int, name: string , order: int |
-| crew               | credit_id: string, department: string, gender: string, id: int, job: string, name: string          |
-
-<!--
-
-
-## Credit Collection
-
-| Credit | Description                                                                                        |
-| ------ | -------------------------------------------------------------------------------------------------- |
-| id     | int                                                                                                |
-| title  | string                                                                                             | -->
+| Movie             | Description                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+| id                | int                                                                                         |
+| title             | string                                                                                      |
+| release_date      | date                                                                                        |
+| original_language | string                                                                                      |
+| budget            | int                                                                                         |
+| genre             | id:int, name:string                                                                         |
+| keywords          | id:int, name:string                                                                         |
+| overview          | string                                                                                      |
+| popularity        | double                                                                                      |
+| vote_average      | double                                                                                      |
+| runtime           | int                                                                                         |
+| cast              | cast_id:int, character:string, credit_id:string, gender:int, id:int, name:string, order:int |
+| crew              | credit_id:string, department:string, gender:int, id:int, job:string, name:string            |

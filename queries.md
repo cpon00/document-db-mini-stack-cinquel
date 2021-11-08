@@ -85,3 +85,16 @@ db.movie.aggregate([
 Aggregate count of the number of movies released originally in English, French, Spanish, Chinese, German, and Farsi in our dataset, sorted by count in descending order
 
 <center><img src="./assets/qt7.png" style="width: 90%" ></img></center>
+
+> All movies James Cameron Directed just for fun
+
+```json
+db.movie.aggregate([
+    {$unwind : "$crew"},
+    {$match  : { $and: [ {'crew.name':/james cameron/i}, {'crew.job':/director/i} ] } },
+    {$group  : {_id: {title: '$title'} }},
+    {$sort   : {'_id.title': 1}},
+])
+```
+
+<center><img src="./assets/qt7.png" style="width: 90%" ></img></center>
