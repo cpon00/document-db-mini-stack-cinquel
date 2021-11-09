@@ -3,7 +3,7 @@ const { MongoClient, ObjectID } = mongodb
 
 // The MongoDB documentation calls this object `client` but the name `db` is used here
 // to provide an analogy across various DAL examples.
-const db = new MongoClient(process.env.DB_URL, { useUnifiedTopology: true })
+const db = new MongoClient('mongodb://localhost:27017', { useUnifiedTopology: true })
 
 const DB_NAME = 'netflix'
 const MOVIE_COLLECTION = 'movies'
