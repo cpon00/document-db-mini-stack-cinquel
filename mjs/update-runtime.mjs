@@ -9,11 +9,14 @@ const newTime = process.argv[3];
 const result = await searchMovieByID(query);
 await updateRuntime(query, newTime);
 //checks if movie exists
+
+console.log(+newTime);
+
 if (result.length === 0) {
   console.log(`ID: ${query} does not exist`);
   //checks if newTime is correct type
-} else if (typeof +newTime !== "number") {
-  console.log(`Need to input an int. You inputted a ${typeof newTime}.`);
+} else if (isNaN(+newTime)) {
+  console.log(`Need to input an int. You inputted a string.`);
 } else {
   console.log(
     `Updated document with ID: ${query} to have a new runtime of: ${newTime}.`
