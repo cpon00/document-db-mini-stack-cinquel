@@ -7,7 +7,6 @@ if (process.argv.length !== 4) {
 const query = process.argv[2];
 const newTime = process.argv[3];
 const result = await searchMovieByID(query);
-console.log(typeof newTime);
 await updateRuntime(query, newTime);
 //checks if movie exists
 if (result.length === 0) {
