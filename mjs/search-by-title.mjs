@@ -9,11 +9,13 @@ const query = process.argv[2];
 
 const result = await searchMoviesByTitle(query);
 if (result.length === 0) {
-  console.log(`No movies match “${query}.”`);
+  console.log(`No movies match “${query}”.`);
 }
 
 result.forEach((movie) => {
-  console.log(`ID: ${movie.id} Title: “${movie.title}”`);
+  console.log(
+    `ID: ${movie.id} Title: “${movie.title}” Runtime: ${movie.runtime}`
+  );
 });
 
 process.exit(0);

@@ -4,6 +4,7 @@ const { MongoClient } = mongodb;
 // The MongoDB documentation calls this object `client` but the name `db` is used here
 // to provide an analogy across various DAL examples.
 
+//READ
 //Local host port is specific to my machine. Change your DB port to make DAL run.
 const db = new MongoClient("mongodb://localhost:27017", {
   useUnifiedTopology: true,
@@ -28,10 +29,6 @@ const searchMoviesByTitle = async (query, limit = 100) => {
     await db.connect();
     const movies = moviesCollection();
 
-    // MongoDB doesn’t return entire collections but instead returns a _cursor_ that allows
-    // iteration through a collection. However, our DALs are designed to return full data
-    // structures of returned results, so we need to “dump” the cursor’s contents into an
-    // object before returning them.
     const cursor = await movies
       .find(
         {
@@ -47,6 +44,31 @@ const searchMoviesByTitle = async (query, limit = 100) => {
         title: 1,
       })
       .limit(limit);
+
+    return await arrayFromCursor(cursor);
+  } finally {
+    await db.close();
+  }
+};
+const searchMovieByID = async (query) => {
+  try {
+    await db.connect();
+    const movies = moviesCollection();
+
+    const cursor = await movies
+      .find(
+        {
+          id: +query,
+        },
+        {
+          projection: {
+            ratings: 0,
+          },
+        }
+      )
+      .sort({
+        title: 1,
+      });
 
     return await arrayFromCursor(cursor);
   } finally {
@@ -81,31 +103,10 @@ const getAvgRatingOfMovie = async (query) => {
   }
 };
 
-const insertMovie = async (title, year) => {
-  try {
-    await db.connect();
-    const movies = moviesCollection();
-
-    // `insertOne` returns the newly-created document, along with its new ID.
-    return await movies.insertOne({
-      title,
-      date: +date, // Convert to a number.
-      ratings: [], // Initialize just for consistency.
-      genre: {},
-      keywords: {},
-      cast: {},
-      crew: {},
-    });
-  } finally {
-    await db.close();
-  }
-};
-
 const removeMovie = async (query) => {
   try {
     await db.connect();
     const movies = moviesCollection();
-
     await movies.deleteOne({
       id: +query,
     });
@@ -132,7 +133,7 @@ const updateRuntime = async (query, newTime) => {
 export {
   searchMoviesByTitle,
   getAvgRatingOfMovie,
-  insertMovie,
   removeMovie,
   updateRuntime,
+  searchMovieByID,
 };
