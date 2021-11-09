@@ -10,8 +10,6 @@ const result = await searchMovieByID(query);
 await updateRuntime(query, newTime);
 //checks if movie exists
 
-console.log(+newTime);
-
 if (result.length === 0) {
   console.log(`ID: ${query} does not exist`);
   //checks if newTime is correct type
