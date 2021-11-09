@@ -7,13 +7,13 @@ if (process.argv.length !== 4) {
 const query = process.argv[2];
 const newTime = process.argv[3];
 const result = await searchMovieByID(query);
-
+console.log(typeof newTime);
 await updateRuntime(query, newTime);
 //checks if movie exists
 if (result.length === 0) {
   console.log(`ID: ${query} does not exist`);
   //checks if newTime is correct type
-} else if (typeof newTime != "number") {
+} else if (typeof +newTime !== "number") {
   console.log(`Need to input an int. You inputted a ${typeof newTime}.`);
 } else {
   console.log(
