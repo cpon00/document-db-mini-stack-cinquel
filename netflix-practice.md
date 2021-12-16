@@ -45,7 +45,7 @@ db.movies.aggregate([
 
 Aggregate of all the movies with dog in the title and sorted by count (desc), but limited to the top 5 years with the most movies released. In the case of a tie count, sort ascending by year.
 
-<center><img src="./assets/q3.png" style="width: 90%" ></img></center>
+<center><img src="./assets/q3.PNG" style="width: 90%" ></img></center>
 
 ### Movies rated a certain way by a specific user:
 
@@ -79,7 +79,7 @@ db.movies.aggregate([
 
 Selects title, year, and average rating of all movies with spongebob in the title descending by the average rating and ascending by title in the case of a tie.
 
-<center><img src="./assets/q5.png" style="width: 90%" ></img></center>
+<center><img src="./assets/q5.PNG" style="width: 90%" ></img></center>
 
 ### Specific average rating of movies:
 
@@ -99,7 +99,7 @@ db.movies.aggregate([
 
 Queries movies, year, and average rating with a title that includes a case insensitive "spongebob" and was released in or after 1999 and displays results with an average rating of over or equal to 4.0.
 
-<center><img src="./assets/q6.png" style="width: 90%" ></img></center>
+<center><img src="./assets/q6.PNG" style="width: 90%" ></img></center>
 
 ### Number of reviews received by a movie during a certain time period:
 
@@ -116,4 +116,4 @@ db.movies.aggregate([
 
 Queries all movies with the title 'spongebob', and having ratings after January 1st, 2005; sorts descending by count, then ascending by year.
 
-<center><img src="./assets/q7.png" style="width: 90%" ></img></center>
+<center><img src="./assets/q7.PNG" style="width: 90%" ></img></center>
